@@ -24,7 +24,7 @@ state *state_new(){
     return sta;
 }
 
-void state_update(level *lvl, state *sta){
+void state_update(level *lvl, state *sta, int *puntaje){
 
     // == Update player speed according to buttons
     // (mov_x,mov_y) is a vector that represents the position of the analog control
@@ -78,8 +78,16 @@ void state_update(level *lvl, state *sta){
             // If a bullet is colliding with an enemy
             if(entity_collision(&sta->bullets[i].ent,&sta->enemies[k].ent)){
                 // Reduce enemy's health by bullet's health and kill bullet
+
                 sta->enemies[k].ent.hp -= sta->bullets[i].ent.hp;
                 sta->bullets[i].ent.dead = 1;
+                if(sta->enemies[k].kind == 1){
+                    *puntaje+=20;
+                }
+                else if(sta->enemies[k].kind == 0){
+                    *puntaje+=10;
+                }
+                
             }
         }
     }
